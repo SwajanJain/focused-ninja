@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Blocked</title>
+    <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚫 Site Blocked by FocusedNinja</h1>
+        <p id="blocked-reason">This website has been blocked.</p>
+        <p class="original-url">Blocked URL: <span id="original-url">N/A</span></p>
+        <hr>
+        <div class="options">
+            <p>Need temporary access?</p>
+            <button id="snooze-button" disabled>Snooze for 10 minutes (1 use/day)</button>
+            <p id="snooze-status" class="status-message"></p>
+            <a href="#" id="go-back-link">Go Back</a>
+             <!-- Or link to a productive site/new tab -->
+             <!-- <a href="chrome://newtab">Open New Tab</a> -->
+        </div>
+    </div>
+    <script src="blocked.js"></script>
+</body>
+</html>

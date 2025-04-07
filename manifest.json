@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "FocusedNinja",
+    "version": "1.0",
+    "description": "Boost productivity with website blocking, task management, and a Pomodoro timer.",
+    "permissions": [
+      "storage",       // To store all user data
+      "tabs",          // To get current tab info and redirect
+      "alarms",        // For timers (Pomodoro, tracking, daily reset, snooze)
+      "webNavigation", // To intercept navigation for blocking/tracking
+      "scripting"      // Needed by some MV3 APIs, though webNavigation might suffice for blocking
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html"
+      // "default_icon" section removed
+    },
+    // Top-level "icons" section removed
+    "web_accessible_resources": [
+      {
+        "resources": ["blocked.html", "blocked.css", "blocked.js"],
+        "matches": ["<all_urls>"] // Allows any website to be redirected to blocked.html
+      }
+    ]
+  }

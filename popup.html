@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusedNinja</title>
+    <link rel="stylesheet" href="popup.css">
+    <!-- Consider adding an icon font library here if you want icons like the trash can -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+</head>
+<body>
+    <div class="popup-container">
+        <header class="popup-header">
+            <div class="logo-title">
+                 <!-- Add logo image here later if desired -->
+                 <span class="title">FocusedNinja</span>
+            </div>
+             <!-- Deep Work Toggle moved to header for global access feel -->
+            <div class="deep-work-section header-toggle">
+                <label for="deep-work-toggle">Deep Work</label>
+                <label class="switch">
+                    <input type="checkbox" id="deep-work-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="home">Home</button>
+            <button class="tab-button" data-tab="tasks">Tasks</button>
+            <button class="tab-button" data-tab="pomodoro">Pomodoro</button>
+        </nav>
+
+        <main class="tab-content-area">
+            <!-- Home Section -->
+            <div id="home-section" class="tab-content active">
+                <div class="card add-site-card">
+                    <h2>Website Tracking & Blocking</h2>
+                    <form id="add-site-form" class="input-grid">
+                        <div>
+                            <label for="new-site-url">Website Domain</label>
+                            <input type="text" id="new-site-url" placeholder="e.g. example.com">
+                        </div>
+                        <div>
+                            <label for="new-site-category">Category</label>
+                            <select id="new-site-category">
+                                <option value="Unproductive">Unproductive</option>
+                                <option value="Productive">Productive</option>
+                                <option value="Neutral">Neutral</option>
+                            </select>
+                        </div>
+                         <div>
+                             <label for="new-site-visit-limit">Visit Limit</label>
+                             <input type="number" id="new-site-visit-limit" placeholder="Optional" min="1">
+                         </div>
+                         <div>
+                             <label for="new-site-time-limit">Time Limit (min)</label>
+                             <input type="number" id="new-site-time-limit" placeholder="Optional" min="1">
+                         </div>
+                        <button type="submit" id="add-site-button" class="btn btn-primary add-button">
+                             <!-- <i class="fas fa-plus"></i> --> + Add
+                        </button>
+                    </form>
+                </div>
+
+                <div class="tracked-sites-section">
+                     <h2>Tracked Websites</h2>
+                     <!-- Site lists will be dynamically inserted here by JS -->
+                     <div id="productive-sites">
+                         <h3>Productive</h3>
+                         <ul id="productive-site-list" class="site-list"></ul>
+                     </div>
+                     <div id="unproductive-sites">
+                         <h3>Unproductive</h3>
+                         <ul id="unproductive-site-list" class="site-list"></ul>
+                     </div>
+                     <div id="neutral-sites">
+                          <h3>Neutral</h3>
+                          <ul id="neutral-site-list" class="site-list"></ul>
+                      </div>
+                </div>
+            </div>
+
+            <!-- Tasks Section -->
+<div id="tasks-section" class="tab-content">
+    <div class="card add-task-card">
+        <!-- CHANGE: Title updated -->
+        <h2>Add Task</h2>
+        <!-- CHANGE: Removed input-row class from form -->
+        <form id="add-task-form">
+            <!-- CHANGE: Text input wrapped in its own div for block layout -->
+            <div class="form-group">
+                <!-- Optional: Add label for accessibility -->
+                <label for="new-task-text" class="sr-only">Add a new task...</label>
+                <input type="text" id="new-task-text" placeholder="Add a new task...">
+            </div>
+            <!-- CHANGE: New div to group priority and button -->
+            <div class="form-row priority-add-row">
+                <select id="new-task-priority">
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <button type="submit" id="add-task-button" class="btn btn-primary add-button">
+                     <!-- <i class="fas fa-plus"></i> --> + Add
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Task Lists remain the same -->
+    <div class="task-lists">
+         <div id="high-priority-tasks">
+             <h3>High Priority</h3>
+             <ul id="high-priority-task-list" class="task-list"></ul>
+         </div>
+          <div id="medium-priority-tasks">
+             <h3>Medium Priority</h3>
+             <ul id="medium-priority-task-list" class="task-list"></ul>
+         </div>
+          <div id="low-priority-tasks">
+              <h3>Low Priority</h3>
+              <ul id="low-priority-task-list" class="task-list"></ul>
+          </div>
+          <div id="completed-tasks">
+               <h3 id="completed-tasks-title">Completed Tasks</h3>
+               <ul id="completed-task-list" class="task-list"></ul>
+          </div>
+    </div>
+</div>
+
+<!-- Pomodoro Section -->
+<div id="pomodoro-section" class="tab-content">
+    <!-- Main Container (Implicitly the #pomodoro-section) -->
+    <div class="card pomodoro-timer-card"> <!-- Progress Card -->
+        <!-- Content Wrapper for Flex Layout -->
+        <div class="timer-card-content">
+            <div class="pomodoro-progress-bar"> <!-- Progress Bar Container -->
+                <div class="pomodoro-progress-bar-inner"></div> <!-- Inner progress indicator -->
+            </div>
+
+            <div id="pomodoro-timer-display"> <!-- Timer Display -->
+                <div id="pomodoro-time">25:00</div>
+            </div>
+
+            <div id="pomodoro-mode-indicator"> <!-- Mode Indicator -->
+                <span id="pomodoro-status">Focus Time</span>
+            </div>
+
+            <div class="pomodoro-controls"> <!-- Button Container -->
+                <!-- Start/Pause Toggle -->
+                <button id="pomodoro-start" class="btn btn-primary">
+                    <!-- Icon placeholder --> <span class="btn-text">Start</span>
+                </button>
+                <button id="pomodoro-pause" class="btn btn-danger" style="display: none;">
+                    <!-- Icon placeholder --> <span class="btn-text">Pause</span>
+                </button>
+
+                <!-- Reset Button -->
+                <button id="pomodoro-reset" class="btn btn-secondary">
+                    <!-- Icon placeholder --> <span class="btn-text">Reset</span>
+                </button>
+            </div>
+
+            <div id="pomodoro-session-count"> <!-- Pomodoro Counter -->
+                 <!-- Icon placeholder --> <span class="count-text">Today's completed pomodoros: <span id="pomodoro-sessions">0</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card pomodoro-info-card"> <!-- Instructions Card -->
+         <h3>Pomodoro Technique</h3> <!-- Title -->
+         <ol> <!-- Ordered list -->
+             <li>Work focused for 25 minutes</li>
+             <li>Take a 5-minute break when the timer rings</li>
+             <li>After 4 pomodoros, take a longer break</li>
+             <li>Repeat to maintain productivity</li>
+         </ol>
+         <p> <!-- Additional note -->
+             When the timer is active, unproductive websites will be blocked to help maintain focus.
+         </p>
+     </div>
+</div>            
+
+    </div> <!-- /.popup-container -->
+
+    <script src="utils.js"></script>
+    <script src="home.js"></script>
+    <script src="tasks.js"></script>
+    <script src="pomodoro.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

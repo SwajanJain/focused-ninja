@@ -1,0 +1,696 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-color: #7C5DFA; /* Purple */
+    --primary-light: #9277FF;
+    --secondary-color: #dfe3fa; /* Light purple/grey */
+    --text-dark: #0C0E16;
+    --text-light: #888eb0;
+    --text-on-primary: #FFFFFF;
+    --background-light: #F8F8FB;
+    --background-content: #FFFFFF;
+    --border-color: #dfe3fa;
+    --danger-color: #EC5757; /* Red for delete/high priority */
+    --warning-color: #FF8F00; /* Orange/Yellow for medium priority? */
+    --success-color: #33D69F; /* Green for productive/low priority */
+    --productive-color: var(--success-color);
+    --unproductive-color: var(--danger-color);
+    --neutral-color: var(--text-light);
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Apply dimensions to the body or html for the popup window */
+html, body {
+    width: 360px;
+    height: 600px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent body scrollbars if container handles it */
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    font-size: 12px; /* Base font size */
+    /* Removed width/height from here as it's on html,body */
+}
+
+/* Apply scrolling to the main container */
+.popup-container {
+    background-color: var(--background-light);
+    padding: 0 20px 20px 20px; /* Adjust padding - remove top padding as header handles it */
+    height: 100%; /* Make container fill the body height */
+    overflow-y: auto; /* Enable vertical scrolling ONLY for the container */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+
+h1, h2, h3 {
+    color: var(--text-dark);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+h2 { font-size: 1.5em; margin-bottom: 20px; }
+h3 { font-size: 1.1em; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;}
+
+
+/* --- Header --- */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0; /* Keep header padding */
+    /* Removed margin-bottom - handled by container padding/spacing */
+    /* Make header sticky? Optional - adds complexity */
+    /* position: sticky;
+    top: 0;
+    background-color: var(--background-light);
+    z-index: 10; */
+    border-bottom: 1px solid var(--border-color);
+     margin: 0 -20px; /* Extend border across padding */
+     padding: 15px 20px; /* Re-apply padding inside header */
+}
+.logo-title .title {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.header-toggle { margin: 0; } /* Override default margin if needed */
+
+/* --- Tabs --- */
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Align tabs left */
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: var(--text-light);
+    border-bottom: 3px solid transparent;
+    transition: color 0.3s, border-bottom-color 0.3s;
+    margin-right: 10px; /* Spacing between tabs */
+    font-weight: 500;
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* --- Tab Content Area --- */
+.tab-content-area {
+    /* Add padding if needed */
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* --- Cards --- */
+.card {
+    background-color: var(--background-content);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 20px; /* Pill shape */
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: bold;
+    transition: background-color 0.3s, opacity 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+}
+.btn-primary:hover {
+    background-color: var(--primary-light);
+}
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--primary-color); /* Darker text on light bg */
+}
+.btn-secondary:hover {
+    background-color: #C8CEE7; /* Slightly darker secondary */
+}
+.btn-danger {
+    background-color: #f9fafe; /* Very light red */
+    color: var(--danger-color);
+}
+.btn-danger:hover {
+     background-color: var(--danger-color);
+     color: white;
+}
+
+/* Delete buttons in lists */
+.delete-button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 1.1em; /* Make icon/text larger */
+    padding: 5px;
+    line-height: 1;
+}
+.delete-button:hover {
+    color: var(--danger-color);
+}
+
+
+/* --- Forms & Inputs --- */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: var(--background-content);
+    color: var(--text-dark);
+    box-sizing: border-box; /* Include padding in width */
+}
+input::placeholder {
+    color: #bbb;
+}
+
+/* Grid layout for Add Site */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    align-items: end; /* Align items to bottom for button */
+}
+.input-grid .add-button {
+     grid-column: 1 / -1; /* Span full width on smaller screens or last row */
+     justify-content: center; /* Center button text */
+     margin-top: 10px; /* Add space above button */
+}
+@media (min-width: 400px) { /* Adjust breakpoint as needed */
+    .input-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr auto; /* Specific columns for wider view */
+        align-items: end;
+    }
+     .input-grid .add-button {
+         grid-column: auto; /* Reset column span */
+         margin-top: 0;
+     }
+}
+
+/* --- Home Section Specific --- */
+.tracked-sites-section h2 {
+    margin-bottom: 20px;
+}
+.site-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.site-list li {
+    background-color: var(--background-content);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.site-info {
+    flex-grow: 1;
+    margin-right: 15px; /* Space before controls/delete */
+}
+.site-info strong { /* Domain */
+    font-size: 1.1em;
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 8px;
+}
+.site-info .limits, .site-info .usage {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+/* Progress Bars */
+.progress-section {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+     width: 100%; /* Take full width when wrapped */
+}
+.progress-item {
+    flex: 1;
+}
+.progress-item label {
+    display: block;
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: none; /* Remove default border */
+    appearance: none; /* Remove default styling */
+    background-color: var(--secondary-color); /* Track color */
+}
+/* Webkit styling for progress bar */
+progress::-webkit-progress-bar {
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+}
+progress::-webkit-progress-value {
+    background-color: var(--primary-color); /* Bar color */
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+/* Firefox styling for progress bar */
+progress::-moz-progress-bar {
+    background-color: var(--primary-color); /* Bar color */
+    border-radius: 4px;
+     transition: width 0.3s ease;
+}
+
+/* --- Tasks Section Specific --- */
+
+/* Adjust card title margin */
+.add-task-card h2 {
+    font-size: 1.3em; /* Slightly smaller title */
+    margin-bottom: 20px; /* Maintain space below title */
+}
+
+/* Style for the text input group */
+#add-task-form .form-group {
+    margin-bottom: 12px; /* Slightly reduce space below text input */
+}
+#add-task-form #new-task-text {
+    width: 100%;
+    box-sizing: border-box;
+    /* Inherit general input styles (padding, border, radius) */
+}
+
+/* Style for the row containing priority and add button */
+#add-task-form .priority-add-row {
+    display: flex;
+    align-items: center; /* Vertically align select and button */
+    gap: 12px; /* Increase gap slightly */
+}
+
+#add-task-form .priority-add-row select {
+    flex-basis: 130px; /* Adjusted width for select - fine-tune as needed */
+    flex-shrink: 0;
+    /* Inherit general select styles (padding, border, radius) */
+}
+
+#add-task-form .priority-add-row button {
+    flex-grow: 1; /* Button takes remaining space */
+    justify-content: center; /* Center text/icon */
+    padding: 10px 15px; /* Adjust button padding if needed */
+    /* Inherit general button styles (bg, color, radius) */
+}
+
+/* Optional: Style for screen-reader only labels */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+
+/* --- Existing Task List Styles --- */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0; /* Space below each list */
+}
+/* ... rest of task list styles remain the same ... */
+.task-list li {
+    background-color: var(--background-content);
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid transparent; /* For priority indicator */
+    transition: border-color 0.3s, opacity 0.3s;
+}
+
+.task-list li.priority-High { border-left-color: var(--danger-color); }
+.task-list li.priority-Medium { border-left-color: var(--warning-color); }
+.task-list li.priority-Low { border-left-color: var(--success-color); }
+
+.task-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+.task-info input[type="checkbox"] {
+    margin-right: 12px;
+    cursor: pointer;
+    /* Custom checkbox styling (optional) */
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    position: relative;
+    top: -1px; /* Align better with text */
+     background-color: white;
+}
+.task-info input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+/* Add checkmark */
+.task-info input[type="checkbox"]:checked::after {
+    content: '✔';
+    color: white;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    font-size: 12px;
+}
+
+
+.task-text {
+    color: var(--text-dark);
+     font-weight: 500;
+}
+.task-list li.completed {
+    opacity: 0.6;
+    border-left-color: var(--text-light); /* Grey border for completed */
+}
+.task-list li.completed .task-text {
+    text-decoration: line-through;
+    color: var(--text-light);
+}
+#completed-tasks-title {
+    color: var(--text-light); /* Less prominent title */
+
+
+/* --- Pomodoro Section Specific --- */
+
+/* Main Container Spacing (Applied via margins on cards) */
+#pomodoro-section .card + .card {
+    margin-top: 16px; /* space-y-4 equivalent */
+}
+
+/* Progress Card */
+.pomodoro-timer-card {
+    padding: 0; /* Remove base card padding, content div handles it */
+    overflow: hidden; /* As per description */
+    box-shadow: var(--box-shadow);
+    background-color: var(--background-content);
+    border-radius: var(--border-radius);
+}
+
+.timer-card-content {
+    padding: 24px 20px 20px 20px; /* pt-6 and horizontal padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px; /* space-y-6 equivalent */
+}
+
+/* Progress Bar */
+.pomodoro-progress-bar {
+    width: 100%;
+    max-width: 448px; /* max-w-md */
+    height: 12px; /* h-3 */
+    background-color: #E5DEFF; /* Light purple track */
+    border-radius: 9999px; /* rounded-full */
+    overflow: hidden;
+}
+
+.pomodoro-progress-bar-inner {
+    height: 100%;
+    width: 0%; /* Start at 0% */
+    border-radius: 9999px;
+    transition: width 0.3s ease-out, background-color 0.3s ease-out; /* Smooth transitions */
+    /* Default to focus color, JS will toggle class */
+    background-color: #9b87f5;
+}
+/* Color change based on mode class */
+.pomodoro-progress-bar-inner.mode-break {
+    background-color: #D3E4FD; /* Light blue */
+}
+.pomodoro-progress-bar-inner.mode-focus {
+     background-color: #9b87f5; /* Purple */
+}
+
+
+/* Timer Display */
+#pomodoro-timer-display #pomodoro-time {
+    font-size: 3rem; /* text-5xl (adjust base rem if needed, 3rem is common) */
+    font-family: 'Courier New', Courier, monospace; /* font-mono */
+    font-weight: 700; /* font-bold */
+    color: #1A1F2C; /* Dark text */
+    line-height: 1; /* Prevent extra spacing */
+    margin: 0; /* Reset default margins */
+}
+
+/* Mode Indicator */
+#pomodoro-mode-indicator #pomodoro-status {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 500; /* font-medium */
+    color: #7E69AB; /* Purple text */
+    margin: 0;
+}
+
+/* Button Container */
+.pomodoro-controls {
+    display: flex;
+    gap: 12px; /* gap-3 */
+    justify-content: center; /* Center buttons horizontally */
+    width: 100%; /* Take full width to allow centering */
+}
+
+/* Base Button Styles within Pomodoro Controls */
+.pomodoro-controls .btn {
+    padding: 10px 20px;
+    border-radius: 6px; /* Standard rounded corners */
+    font-weight: 600; /* Semi-bold */
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none; /* Remove border by default */
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+/* Placeholder for icon margin */
+.pomodoro-controls .btn svg { /* If using SVG icons */
+    width: 16px;
+    height: 16px;
+    margin-right: 4px; /* mr-1 */
+}
+.pomodoro-controls .btn i { /* If using Font Awesome etc. */
+    font-size: 16px; /* Adjust if needed */
+    margin-right: 4px; /* mr-1 */
+    line-height: 1; /* Prevent icon affecting button height */
+}
+
+
+/* Start Button (when stopped) */
+.pomodoro-controls #pomodoro-start {
+    background-color: #9b87f5; /* Purple */
+    color: white;
+}
+.pomodoro-controls #pomodoro-start:hover {
+    background-color: #7E69AB; /* Darker Purple */
+}
+
+/* Pause Button (replaces Start when running) */
+.pomodoro-controls #pomodoro-pause {
+    background-color: #EF4444; /* bg-red-500 */
+    color: white;
+}
+.pomodoro-controls #pomodoro-pause:hover {
+     background-color: #DC2626; /* hover:bg-red-600 */
+}
+
+/* Reset Button (Outlined Variant) */
+.pomodoro-controls #pomodoro-reset {
+    background-color: transparent;
+    color: var(--text-light); /* Muted text color */
+    border: 1px solid var(--border-color); /* Light border */
+}
+.pomodoro-controls #pomodoro-reset:hover {
+    background-color: #f9fafb; /* Very light bg on hover */
+    border-color: #d1d5db; /* Slightly darker border */
+    color: var(--text-dark);
+}
+.pomodoro-controls #pomodoro-reset:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: transparent; /* Ensure background doesn't change when disabled */
+    border-color: var(--border-color);
+    color: var(--text-light);
+}
+
+
+/* Pomodoro Counter */
+#pomodoro-session-count {
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* text-muted-foreground (Tailwind gray-500 approx) */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center text and icon */
+    gap: 4px; /* Space between icon and text */
+}
+/* Placeholder for icon */
+#pomodoro-session-count svg {
+    width: 14px;
+    height: 14px;
+}
+#pomodoro-session-count i {
+     font-size: 14px;
+}
+
+
+/* Instructions Card */
+.pomodoro-info-card {
+     padding: 16px; /* p-4 */
+     box-shadow: var(--box-shadow);
+     background-color: var(--background-content);
+     border-radius: var(--border-radius);
+}
+.pomodoro-info-card h3 {
+     font-size: 0.875rem; /* text-sm */
+     font-weight: 500; /* font-medium */
+     margin: 0 0 8px 0; /* mb-2 */
+     color: var(--text-dark); /* Slightly darker than muted */
+}
+.pomodoro-info-card ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: decimal; /* list-decimal */
+    list-style-position: inside; /* list-inside */
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* text-muted-foreground */
+    line-height: 1.5; /* Adjust line spacing */
+}
+/* space-y-1 equivalent */
+.pomodoro-info-card ol > li + li {
+    margin-top: 4px;
+}
+
+.pomodoro-info-card p {
+    margin: 8px 0 0 0; /* mt-2 */
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* text-muted-foreground */
+    line-height: 1.5;
+}
+
+/* --- Deep Work Toggle Switch --- */
+.deep-work-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0; /* Adjust as needed */
+}
+.deep-work-section label:first-child { /* Text label */
+    font-weight: bold;
+    color: var(--text-dark);
+     margin-bottom: 0; /* Override default label margin */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px; /* Smaller toggle */
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
